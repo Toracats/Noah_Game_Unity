@@ -1,0 +1,129 @@
+{
+    "name": "naniscript",
+    "scopeName": "source.naniscript",
+    "fileTypes": ["nani"],
+    "patterns": [
+        { "include": "#command" },
+        {
+            "patterns": [
+                {
+                    "comment": "Comment - ;...",
+                    "name": "naniscript.comment",
+                    "match": "^[\\t ]*(;.*)$"
+                },
+                {
+                    "comment": "Label - #...",
+                    "name": "naniscript.label",
+                    "match": "^[\\t ]*(#[\\t ]*)(\\s[\\s\\w|]*)[\\t ]*$"
+                }
+            ]
+        },
+        { "include": "#generic-text" }
+    ],
+    "repository": {
+        "command": {
+            "patterns": [
+                {
+                    "comment": "Command - @...",
+                    "match": "^[\\t ]*(@.+)[\\t ]*$",
+                    "name": "naniscript.command.parameter.value",
+                    "captures": {
+                        "1": {
+                            "patterns": [
+                                {
+                                    "comment": "@Command",
+                                    "name": "naniscript.command",
+                                    "match": "@\\w+"
+                                },
+                                { "include": "#params" }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "inline-command": {
+            "patterns": [
+                {
+                    "comment": "Inline command - [command parameters]",
+                    "name": "naniscript.command.parameter.value",
+                    "match": "(\\[[<\\w]*)([^\\r\\n\\[\\]]*)(\\]|$)",
+                    "captures": {
+                        "1": { "name": "naniscript.command.inline" },
+                        "2": { "patterns": [{ "include": "#params" }] },
+                        "3": { "name": "naniscript.command.inline" }
+                    }
+                }
+            ]
+        },
+        "expression": {
+            "patterns": [
+                {
+                    "comment": "Expression - {exp}",
+                    "name": "naniscript.expression",
+                    "match": "(?<!\\\\)\\{(?:[^\\[\\]\\{\\}]*|\\\\\\{|\\\\\\})*((?<!\\\\)\\}|$)"
+                }
+            ]
+        },
+        "text-identifier": {
+            "patterns": [
+                {
+                    "comment": "Text Identifier - |#ID|",
+                    "name": "naniscript.text-identifier",
+                    "match": "(?<!\\\\)\\|#&*[\\w-]+\\|"
+                }
+            ]
+        },
+        "bool-flags": {
+            "patterns": [
+                {
+                    "comment": "Boolean Flag - !",
+                    "name": "naniscript.command.parameter.value",
+                    "match": "!"
+                }
+            ]
+        },
+        "params": {
+            "patterns": [
+                { "include": "#expression" },
+                { "include": "#text-identifier" },
+                {
+                    "comment": "Parameter ID - id:",
+                    "name": "naniscript.command.parameter.id",
+                    "match": "\\s\\w+:"
+                },
+                {
+                    "comment": "Parameter ID With Positive Boolean Flag - id!",
+                    "name": "naniscript.command.parameter.id",
+                    "match": "\\s\\w+(!)(?=\\s|$)",
+                    "captures": { "1": { "patterns": [{ "include": "#bool-flags" }] } }
+                },
+                {
+                    "comment": "Parameter ID With Negative Boolean Flag - !id",
+                    "name": "naniscript.command.parameter.id",
+                    "match": "\\s(!)\\w+",
+                    "captures": { "1": { "patterns": [{ "include": "#bool-flags" }] } }
+                }
+            ]
+        },
+        "generic-text": {
+            "name": "naniscript.generic-text",
+            "match": "^\\s*(\\S+: ){0,1}(.+)",
+            "captures": {
+                "1": { "patterns": [{ "name": "naniscript.author", "match": "\\S+:" }] },
+                "2": {
+                    "patterns": [
+                        {
+                            "name": "naniscript.generic-text.escaped-char",
+                            "comment": "Escaped characters",
+                            "match": "\\\\[{}\\[\\]\"]"
+                        },
+                        { "include": "#expression" },
+                        { "include": "#text-identifier" },
+                        { "include": "#inline-command" }
+                    ]
+                }
+            }
+        }
+    }
+}
