@@ -1,0 +1,12 @@
+@back City1
+@back City1.RadialBlur
+@set Ellith_Name="エリス <color=#87cefa><size=30>幼馴染</color>"
+@set Noah_Name="ノア <color=#87cefa><size=30>研究者</color>"
+@bgm Pure_Ruby
+Ellith.Laugh: やあ、ノア
+Noah.Default: ああ、おはよう。エリス
+Ellith.Default: 私、君に伝えないといけないことがあって
+Noah.Default: どうしたの？
+@set Ellith_Name="エリス <color=#ff69b4><size=30>第三小隊</color>"
+Ellith: 私は第三小隊で暗殺をしているの
+@stop
