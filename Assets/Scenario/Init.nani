@@ -8,7 +8,8 @@
 Ellith.Laugh: やあ、ノア
 Noah.Default: ああ、おはよう。エリス
 Ellith.Default: 私、君に伝えないといけないことがあって
-Noah.Default: どうしたの？
-@set Ellith_Affiliation="<color=#87cefa><size=30>第三小隊</color>"
+@set Ellith_Affiliation="<+char><color=#87cefa><size=30>第三小隊</color></+char>"
 Ellith: 私は第三小隊で暗殺をしているの
+@set Ellith_Affiliation="<color=#87cefa><size=30>第三小隊</color>"
+Ellith: 驚いた？
 @stop
