@@ -2,6 +2,8 @@
 @back City1.RadialBlur
 @set Ellith_Name="エリス"
 @set Ellith_Affiliation="<color=#FFFFFF><size=30>幼馴染</color>"
+@set Ellith_Linecolor="#b6b6b6"
+@set Noah_Linecolor="#87cefa"
 @set Noah_Affiliation="<color=#87cefa><size=30>国立アシュクロフト先進技術研究所</color>"
 @set Noah_Name="ノア"
 Ellith.Laugh: やあ、ノア

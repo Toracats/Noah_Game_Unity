@@ -176,6 +176,7 @@ MonoBehaviour:
   onRevealFinished:
     m_PersistentCalls:
       m_Calls: []
+  lineImageController: {fileID: 4011427186296417970}
   affiliationPanel: {fileID: 8975703999142950238}
 --- !u!1 &1398310929233790
 GameObject:
@@ -1085,6 +1086,7 @@ GameObject:
   - component: {fileID: 188127503692583959}
   - component: {fileID: 6362707860103878912}
   - component: {fileID: 2780451785486194591}
+  - component: {fileID: 4011427186296417970}
   m_Layer: 5
   m_Name: Line
   m_TagString: Untagged
@@ -1135,7 +1137,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1149,6 +1151,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4011427186296417970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104246452427409668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2172f049bbe4941a4702f0b6adef42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetImage: {fileID: 2780451785486194591}
+  defaultLineColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1598796183415320835
 GameObject:
   m_ObjectHideFlags: 0
