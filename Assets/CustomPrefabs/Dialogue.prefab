@@ -177,6 +177,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   lineImageController: {fileID: 4011427186296417970}
+  gradationObject: {fileID: 285546568103798848}
+  lineObject: {fileID: 0}
   affiliationPanel: {fileID: 8975703999142950238}
 --- !u!1 &1398310929233790
 GameObject:

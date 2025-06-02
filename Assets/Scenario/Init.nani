@@ -13,4 +13,5 @@ Ellith.Default: 私、君に伝えないといけないことがあって
 Ellith: 私は第三小隊で暗殺をしているの
 @set Ellith_Affiliation="<color=#ff69b4><size=30>第三小隊</color>"
 Ellith: 驚いた？
+私は驚いた。
 @stop

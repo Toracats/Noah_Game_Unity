@@ -1,41 +1,38 @@
 using UnityEngine;
+using System.Collections.Generic; // IReadOnlyList のため
+using Naninovel; // PrintedMessage のため
 
-namespace Naninovel.UI // 元のnamespaceを維持
+namespace Naninovel.UI
 {
     public class CustomRevealableTextPrinterPanel : RevealableTextPrinterPanel
     {
-        [Header("Custom Settings")] // インスペクターで見やすくするためのヘッダー
-        [Tooltip("ダイアログボックスの線など、キャラクターの色を反映させたいImageを制御するコントローラー。")]
-        [SerializeField] private CharacterLineColorController lineImageController; // ダイアログの線のImageを制御するコンポーネント
+        [Header("Custom Settings")]
+        [SerializeField] private CharacterLineColorController lineImageController;
 
-        // AffiliationPanel の参照 (既存のコードから)
-        protected virtual AffiliationPanel AffilicationPanel => affiliationPanel;
-        [SerializeField] private AffiliationPanel affiliationPanel; // インスペクターで設定するAffiliationPanel (既存のコードから)
+        [Tooltip("AuthorNamePanelとAffiliationPanelを内包するコンテナオブジェクト（例: Gradation）。両パネルが非表示の場合にこのコンテナも非表示にします。")]
+        [SerializeField] private GameObject gradationObject; // InfoContainer から Gradation に名前変更 (ユーザーの指摘に合わせて)
 
+        [Tooltip("表示/非表示を Gradation オブジェクトと連動させたい Line オブジェクト。")]
+        [SerializeField] private GameObject lineObject; // インスペクターで Line オブジェクトをアサインしてください
+
+        [SerializeField] private AffiliationPanel affiliationPanel;
 
         protected override void SetMessageAuthor(MessageAuthor author)
         {
             base.SetMessageAuthor(author);
 
-            // ICharacterManager を CustomCharacterManager として取得
-            // CharacterManager プロパティは ICharacterManager 型なのでキャストが必要
-            var customCharacterManager = CharacterManager as CustomCharacterManager; 
+            var customCharacterManager = CharacterManager as CustomCharacterManager;
 
-            // AffiliationPanel の処理 (既存のコードをベースに)
             if (customCharacterManager != null && affiliationPanel != null)
             {
                 var affiliation = customCharacterManager.GetAffiliation(author.Id);
                 SetAffiliationText(affiliation);
-                affiliationPanel.gameObject.SetActive(!string.IsNullOrEmpty(affiliation));
-                // affiliationPanel.TextColor = AuthorMeta.NameColor; // この行は元のコードにありましたが、今回の色の主題とは別なのでコメントアウト推奨。必要なら残してください。
             }
             else if (affiliationPanel != null)
             {
                 SetAffiliationText("");
-                affiliationPanel.gameObject.SetActive(false);
             }
 
-            // CharacterLineColorController の処理 (新規追加)
             if (lineImageController != null)
             {
                 if (customCharacterManager != null && !string.IsNullOrEmpty(author.Id))
@@ -44,26 +41,56 @@ namespace Naninovel.UI // 元のnamespaceを維持
                 }
                 else
                 {
-                    // 発言者がいない、またはCustomCharacterManagerでない場合はデフォルト色に
                     lineImageController.ResetToDefaultColor();
                 }
             }
+
+            UpdateGradationAndLineVisibility(); // メソッド名を変更して呼び出し
         }
 
-        // SetAffiliationText メソッド (既存のコードから)
         protected virtual void SetAffiliationText(string text)
         {
-            if (!AffilicationPanel) return;
+            if (affiliationPanel == null) return;
 
             var isActive = !string.IsNullOrWhiteSpace(text);
-            AffilicationPanel.gameObject.SetActive(isActive);
+            affiliationPanel.gameObject.SetActive(isActive);
             if (!isActive) return;
 
-            AffilicationPanel.Text = text;
+            affiliationPanel.Text = text;
         }
 
-        // OnDisableなどでコントローラーの状態をリセットすることも検討できます
-        // 例えば、プリンターが非表示になったら線の色をデフォルトに戻すなど
+        // Gradation と Line の表示/非表示をまとめて制御するメソッド
+        protected virtual void UpdateGradationAndLineVisibility()
+        {
+            // gradationObject が設定されていなければ何もしない (エラー回避)
+            if (gradationObject == null)
+            {
+                Debug.LogWarning("Gradation Object is not assigned in the inspector.", this);
+                // lineObject のチェックもここで行うか、個別に行う
+                if (lineObject == null) Debug.LogWarning("Line Object is not assigned in the inspector.", this);
+                return;
+            }
+
+            bool isAuthorNamePanelActive = base.AuthorNamePanel != null && base.AuthorNamePanel.gameObject.activeSelf;
+            bool isAffiliationPanelActive = affiliationPanel != null && affiliationPanel.gameObject.activeSelf;
+
+            // AuthorNamePanel または AffiliationPanel のどちらかがアクティブなら、Gradation と Line を表示
+            bool shouldBeActive = isAuthorNamePanelActive || isAffiliationPanelActive;
+
+            gradationObject.SetActive(shouldBeActive);
+
+            // lineObject が設定されていれば、Gradation と同じ状態に設定
+            if (lineObject != null)
+            {
+                lineObject.SetActive(shouldBeActive);
+            }
+        }
+
+        public override void SetMessages(IReadOnlyList<PrintedMessage> messages)
+        {
+            base.SetMessages(messages);
+        }
+
         protected override void OnDisable()
         {
             base.OnDisable();
