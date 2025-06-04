@@ -1,17 +1,17 @@
 @back City1
 @back City1.RadialBlur
 @set Ellith_Name="エリス"
-@set Ellith_Affiliation="<color=#FFFFFF><size=30>幼馴染</color>"
+@set Ellith_Affiliation="<color=#FFFFFF>幼馴染</color>"
 @set Ellith_Linecolor="#b6b6b6"
 @set Noah_Linecolor="#87cefa"
-@set Noah_Affiliation="<color=#87cefa><size=30>国立アシュクロフト先進技術研究所</color>"
+@set Noah_Affiliation="<color=#87cefa>国立アシュクロフト先進技術研究所</color>"
 @set Noah_Name="ノア"
 Ellith.Laugh: やあ、ノア
 Noah.Default: ああ、おはよう。エリス
 Ellith.Default: 私、君に伝えないといけないことがあって
-@set Ellith_Affiliation="<+char><color=#ff69b4><size=30>第三小隊</color></+char>"
-Ellith: 私は第三小隊で暗殺をしているの
-@set Ellith_Affiliation="<color=#ff69b4><size=30>第三小隊</color>"
+@set Ellith_Affiliation="<+char><color=#ff69b4>第三小隊</color></+char>"
+Ellith: 私は君のことが好き
+@set Ellith_Affiliation="<color=#ff69b4>第三小隊</color>"
 Ellith: 驚いた？
 私は驚いた。
 @stop

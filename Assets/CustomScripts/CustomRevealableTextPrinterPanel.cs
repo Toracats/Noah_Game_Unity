@@ -21,6 +21,8 @@ namespace Naninovel.UI
         {
             base.SetMessageAuthor(author);
 
+            UpdateGradationAndLineVisibility(); // メソッド名を変更して呼び出し
+
             var customCharacterManager = CharacterManager as CustomCharacterManager;
 
             if (customCharacterManager != null && affiliationPanel != null)
@@ -45,7 +47,6 @@ namespace Naninovel.UI
                 }
             }
 
-            UpdateGradationAndLineVisibility(); // メソッド名を変更して呼び出し
         }
 
         protected virtual void SetAffiliationText(string text)
@@ -53,10 +54,21 @@ namespace Naninovel.UI
             if (affiliationPanel == null) return;
 
             var isActive = !string.IsNullOrWhiteSpace(text);
-            affiliationPanel.gameObject.SetActive(isActive);
-            if (!isActive) return;
 
-            affiliationPanel.Text = text;
+            if (!isActive)
+            {
+                affiliationPanel.gameObject.SetActive(false); // 非アクティブならテキストセット前に非表示にして終了
+                                                              // affiliationPanel.Text = string.Empty; // 必要であればテキストもクリア
+                return;
+            }
+
+            // パネルが非表示だった場合、まず表示状態にする
+            if (!affiliationPanel.gameObject.activeSelf)
+            {
+                affiliationPanel.gameObject.SetActive(true);
+            }
+
+            affiliationPanel.Text = text; // テキストをセット
         }
 
         // Gradation と Line の表示/非表示をまとめて制御するメソッド
